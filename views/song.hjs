@@ -6,11 +6,9 @@
   </head>
   <body>
     <h1>{{ title }}</h1>
-    <p>Welcome to {{ title }}</p>
-    <h4> Menu </h4>
     <ul>
-      <li> <a href="/about">About</a></li>
+      <li>Artiste : </li>
+      <li>Album : </li>
     </ul>
-    <h4> Last Songs </h4>
   </body>
 </html>

@@ -10,7 +10,11 @@ var router = express.Router();
 */
 
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Producer Gems' });
+});
+
+router.get('/about', function(req,res){
+  res.render('about');
 });
 
 router.get('')

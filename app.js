@@ -12,7 +12,8 @@ var debug = require('debug');
 
 var mongoose = require('mongoose');
 
-var routes = require('./routes/index');
+var index = require('./routes/index');
+var song = require('./routes/song');
 var users = require('./routes/users');
 var api = require('./routes/api');
 
@@ -30,8 +31,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/api',api);
+app.use('/', index);
+app.use('/song',song);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
