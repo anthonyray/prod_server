@@ -12,8 +12,31 @@ var Song = require('../models/song');
 /*
 * Routes
 */
+router.route('/song/:song_id').
+
+  get(function(req,res){
+    Song.findById(req.params.song_id, function(err, song){
+      if (err)
+        res.send(err);
+      res.json(song);
+    })
+  }).
+
+  post(function(req,res){
+    var song = new Song();
+    song.save(function(err){
+      if (err)
+        res.send(err)
+      res.json({message : 'Song created !'});
+    });
+  }).
+
+  put(function(req,res){
+
+  });
 
 router.route('/annotation/:annotation_id').
+
   get(function(req,res){
     Annotation.findById(req.params.annotation_id, function(err,annotation){
       if(err)
@@ -21,6 +44,7 @@ router.route('/annotation/:annotation_id').
       res.json(annotation);
     });
   }).
+
   post(function(req, res) {
     var annotation = new Annotation();
 
@@ -33,6 +57,7 @@ router.route('/annotation/:annotation_id').
         res.json({ message: 'Annotation created!' });
     });
   }).
+
   put(function(req,res){
     Annotation.findById(req.params.annotation_id, function(err,annotation){
       if (err)
@@ -57,4 +82,5 @@ router.route('/annotations').
 			res.json(annotations);
 		});
   });
+
 module.exports = router;
