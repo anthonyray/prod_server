@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Song = require('../models/song');
+var Artist = require('../models/artist');
 
 router.get('/', function(req, res) {
   Song.find(function(err, songs) {
@@ -17,7 +18,12 @@ router.route('/:song_id').
     Song.findById(req.params.song_id, function(err, song){
       if (err)
         res.send(err);
-      res.render('song', song);
+      Artist.findById(song.artist_id, function(err,artist){
+        if (err)
+          res.send(err);
+        song.artist = artist
+        res.render('song',song);
+      })
     });
   });
 

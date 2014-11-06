@@ -12,6 +12,16 @@ var Artist = require('../models/artist');
 /*
 * Routes
 */
+
+router.route('/song').
+  get(function(req,res){
+    Song.find(function(err,songs){
+      if (err)
+        res.send(err);
+
+      res.json(songs);
+    });
+  });
 router.route('/song/:song_id').
 
   get(function(req,res){
