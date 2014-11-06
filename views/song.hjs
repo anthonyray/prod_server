@@ -8,7 +8,8 @@
     <h1>{{ title }}</h1>
     <ul>
       <li>Artiste : </li>
-      <li>Album : </li>
+      <li>Album : {{album}}</li>
+      <li> upvotes : {{upvotes}}</li>
     </ul>
   </body>
 </html>

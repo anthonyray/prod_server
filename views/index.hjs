@@ -10,7 +10,13 @@
     <h4> Menu </h4>
     <ul>
       <li> <a href="/about">About</a></li>
+      <li> <a href="/song">Songs</a></li>
     </ul>
     <h4> Last Songs </h4>
+    <ul>
+      {{# songs}}
+        <li>({{upvotes}}) <a href="song/{{_id}}">{{title}} - {{album}}</a></li>
+      {{/songs}}
+    </ul>
   </body>
 </html>

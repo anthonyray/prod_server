@@ -1,0 +1,18 @@
+Song :
+  - title : attr
+  - artist : [ref]
+  - album : attr
+  - producer : [ref]
+  - media : [embed]
+  - upvotes : attr
+  - submitter : [ref]
+  - annotations : [embed]
+
+Annotation :
+  - type : attr
+  - description : attr
+  - upvotes : attr
+  - submitter : [ref]
+  - start : attr
+  - stop : attr
+  - comments : [embed]

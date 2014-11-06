@@ -7,7 +7,7 @@ var router = express.Router();
 
 var Annotation = require('../models/annotation');
 var Song = require('../models/song');
-
+var Artist = require('../models/artist');
 
 /*
 * Routes
@@ -81,6 +81,26 @@ router.route('/annotations').
 
 			res.json(annotations);
 		});
+  });
+
+router.route('/artist').
+  get(function(req,res){
+    Artist.find(function(err,artists){
+      if (err)
+        res.send(err);
+
+      res.json(artists);
+    });
+  });
+
+router.route('/artist/:artist_id').
+  get(function(req,res){
+    Artist.findById(req.params.artist_id,function(err,artist){
+      if (err)
+        res.send(err);
+
+      res.json(artist);
+    });
   });
 
 module.exports = router;

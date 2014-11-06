@@ -1,5 +1,4 @@
 var mongoose = require('mongoose'), Schema = mongoose.Schema;
-var userSchema = null;
 
 var annotationSchema = new mongoose.Schema({
   type : { type : String, required : true, enum : ['Sample','FX','Synth']},
