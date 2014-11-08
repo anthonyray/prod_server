@@ -7,7 +7,13 @@ var annotationSchema = new mongoose.Schema({
   upvotes : { type : Number, default : 0, min : 0},
   submitter : { type : String, ref : 'User'},
   start : { type : Number, default : 0, min: 0},
-  stop : { type : Number , default : 0, min: 0}
+  stop : { type : Number , default : 0, min: 0},
+  comments : [{
+    body : {type : String},
+    created : { type: Date, default: Date.now },
+    submitter : {type : Schema.Types.ObjectId, ref :'User'},
+    votes : {type : Number} 
+  }]
 });
 
 module.exports = mongoose.model('Annotation', annotationSchema);
