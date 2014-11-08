@@ -12,10 +12,11 @@ var debug = require('debug');
 
 var mongoose = require('mongoose');
 
-var index = require('./routes/index');
-var song = require('./routes/song');
-var users = require('./routes/users');
-var api = require('./routes/api');
+var indexCtrl = require('./routes/index');
+var songCtrl = require('./routes/song');
+var usersCtrl = require('./routes/users');
+var apiCtrl = require('./routes/api');
+var artistCrl = require('./routes/artist');
 
 var app = express();
 
@@ -31,10 +32,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/song',song);
-app.use('/users', users);
-app.use('/api',api);
+app.use('/', indexCtrl);
+app.use('/song',songCtrl);
+app.use('/artist',artistCrl)
+app.use('/users', usersCtrl);
+app.use('/api',apiCtrl);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

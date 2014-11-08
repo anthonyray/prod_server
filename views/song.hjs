@@ -16,6 +16,12 @@
         <li>{{media.url}}</li>
       </ul>
       </li>
+      <li>Annotations :
+        <ul>
+          {{#annotations}}
+          <li>{{type}} - {{description}}</li>
+          {{/annotations}}
+        </ul>
     </ul>
   </body>
 </html>

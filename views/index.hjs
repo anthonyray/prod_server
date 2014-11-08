@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{{ title }}</title>
+    <title>Producer Gems</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1>{{ title }}</h1>
-    <p>Welcome to {{ title }}</p>
+    <h1>Producer Gems</h1>
     <h4> Menu </h4>
     <ul>
-      <li> <a href="/about">About</a></li>
-      <li> <a href="/song">Songs</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/song">Profile</a></li>
     </ul>
-    <h4> Last Songs </h4>
+    <h4>Explore</h4>
+    <ul>
+      <li><a href="/artist">Artists</a></li>
+      <li><a href="/song">Songs</a></li>
+    </ul>
+    <h3>Trending</h3>
     <ul>
       {{# songs}}
-        <li>({{upvotes}}) <a href="song/{{_id}}">{{title}} - {{album}}</a></li>
+        <li><a href="song/{{_id}}">({{upvotes}}) {{title}} - {{artist.name}}</a></li>
       {{/songs}}
     </ul>
   </body>

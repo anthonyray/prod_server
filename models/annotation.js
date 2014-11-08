@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'), Schema = mongoose.Schema;
 
 var annotationSchema = new mongoose.Schema({
+  song : { type : Schema.Types.ObjectId, ref : 'Song'},
   type : { type : String, required : true, enum : ['Sample','FX','Synth']},
   description : { type : String, default: 'Empty description'},
   upvotes : { type : Number, default : 0, min : 0},
