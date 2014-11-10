@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Producer Gems</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
+{{>header}}
+
     <h1>Producer Gems</h1>
     {{> menu}}
     <h3>Trending</h3>
@@ -13,6 +8,5 @@
         <li><a href="song/{{_id}}">({{upvotes}}) {{title}} - {{artist.name}}</a></li>
       {{/songs}}
     </ul>
-  </body>
-  {{> footer}}
-</html>
+
+{{>footer}}
