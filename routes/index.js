@@ -12,7 +12,7 @@ module.exports = function(passport){
       exec(function(err,songs){
         if (err)
           res.send(err);
-        res.render('index',{songs : songs});
+        res.render('index',{songs : songs,user : req.user});
       });
   });
 
