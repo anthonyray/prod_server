@@ -6,25 +6,23 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var debug = require('debug');
 var hbs = require('hbs');
-
-/*
-* Loading other than express modules
-*/
-
+var passport = require('passport');
+var session = require('express-session');
+var flash = require('connect-flash');
 var mongoose = require('mongoose');
 
-var indexCtrl = require('./routes/index');
-var songCtrl = require('./routes/song');
-var usersCtrl = require('./routes/users');
-var apiCtrl = require('./routes/api');
-var artistCrl = require('./routes/artist');
+
+// Loading configs
+
+var DBconf = require('./config/database');
+
+// App setup
 
 var app = express();
 
-// view engine setup
+// View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-
 hbs.registerPartials(__dirname + '/views/partials');
 
 // uncomment after placing your favicon in /public
@@ -34,6 +32,19 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+require('./config/passport')(passport);
+
+app.use(session({secret : 'INEEDTOHIDETHAT'}));
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login
+app.use(flash()); // Enabling flash messages
+
+var indexCtrl = require('./routes/index')(passport);
+var songCtrl = require('./routes/song');
+var usersCtrl = require('./routes/users');
+var apiCtrl = require('./routes/api');
+var artistCrl = require('./routes/artist');
 
 app.use('/', indexCtrl);
 app.use('/song',songCtrl);
@@ -81,7 +92,7 @@ app.set('port', process.env.PORT || 9000);
 */
 var db = mongoose.connection;
 
-mongoose.connect('mongodb://localhost/prod');
+mongoose.connect(DBconf.url);
 
 
 var server = app.listen(app.get('port'), function() {
