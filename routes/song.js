@@ -1,4 +1,4 @@
-  var express = require('express');
+var express = require('express');
 var router = express.Router();
 var Song = require('../models/song');
 var Artist = require('../models/artist');
@@ -20,6 +20,11 @@ router.get('/', function(req, res) {
       }
   });
 });
+
+router.route('/submit').
+  get(function(req,res){
+    res.render('song/submit');
+  });
 
 router.route('/:song_id').
   get(function(req,res){
@@ -79,7 +84,7 @@ router.route('/:song_id/annotation').
 
 
     });
-  })
+  });
 
 
 module.exports = router;
