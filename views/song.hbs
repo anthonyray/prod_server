@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ title }}</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>{{ title }}</h1>
+    <ul>
+      <li>Artiste : {{artist.name}}</li>
+      <li>Album : {{album}}</li>
+      <li> upvotes : {{upvotes}}</li>
+      <li>media :
+      <ul>
+        <li>{{media.source}}</li>
+        <li>{{media.url}}</li>
+      </ul>
+      </li>
+      <li>Annotations :
+        <ul>
+          {{#annotations}}
+          <li>{{type}} - {{description}}</li>
+          {{/annotations}}
+        </ul>
+    </ul>
+  </body>
+</html>
