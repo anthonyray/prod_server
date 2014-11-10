@@ -1,0 +1,25 @@
+{{>header}}
+{{>menu}}
+  <div class="fluid-container">
+    <div class="row">
+      <div class="col-xs-12">
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href="#">Best</a></li>
+          <li role="presentation"><a href="#">Trending</a></li>
+          <li role="presentation"><a href="#">Most Discussed</a></li>
+        </ul>
+        {{#artists}}
+        <div class="media">
+          <a class="media-left pull-left" href="#">
+            <img class="img img-circle" src="images/placeholder.gif">
+          </a>
+          <div class="media-body">
+            <h4 class="media-heading"><a href="artist/{{_id}}"> {{name}}</a></h4>
+          </div>
+        </div>
+        <br>
+        {{/artists}}
+      </div>
+    </div>
+  </div>
+{{>footer}}

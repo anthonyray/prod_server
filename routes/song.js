@@ -16,7 +16,7 @@ router.get('/', function(req, res) {
     if (err)
       res.send(err);
       else{
-        res.json( songs );
+        res.render( 'song/songs', {songs : songs} );
       }
   });
 });

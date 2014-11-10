@@ -1,20 +1,35 @@
-<h4> Menu </h4>
-  {{#if user}}
-    <p>Hi {{user.local.email}} ! </p>
-    <ul>
-      <li><a href="/about">About</a></li>
-      <li><a href='/logout'>Logout</a></li>
-      <li><a href="/profile">Profile</a></li>
-    </ul>
-  {{else}}
-  <ul>
-    <li><a href="/about">About</a></li>
-    <li><a href='/login'>Login</a></li>
-    <li><a href="/profile">Profile</a></li>
-  </ul>
-  {{/if}}
-<h4>Explore</h4>
-<ul>
-  <li><a href="/artist">Artists</a></li>
-  <li><a href="/song">Songs</a></li>
-</ul>
+<nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle collapsed" data-target="#navbar"
+                data-toggle="collapse" type="button"><span class=
+                "sr-only">Toggle navigation</span> <span class=
+                "icon-bar"></span> <span class="icon-bar"></span> <span class=
+                "icon-bar"></span></button> <a class="navbar-brand" href="/">Producer Gems</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbar">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="song">Songs</a>
+                    </li>
+
+                    <li>
+                        <a href="artist">Artists</a>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav  navbar-right">
+                  {{#if user}}
+                    <li><a href="profile">{{user.local.email}}</a></li>
+                    <li><a href="logout">Logout</a></li>
+                  {{else}}
+                    <li><a href="login">Login</a></li>
+                    <li class="active">
+                        <a href="about">About</a>
+                    </li>
+                  {{/if}}
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>

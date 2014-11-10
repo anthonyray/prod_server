@@ -16,9 +16,16 @@ router.route('/').
     Artist.find(function(err,artists){
       if (err)
         res.send(err);
-      res.render('artist',artists);
+      res.render('artist/artists',{artists : artists});
     });
   });
 
-
+router.route('/:artist_id').
+  get(function(req,res){
+    Artist.findById(req.params.artist_id,function(err,artist){
+      if (err)
+        res.send(err);
+      res.render('artist/artist',{artist : artist});
+    });
+  });
 module.exports = router;

@@ -1,12 +1,26 @@
 {{>header}}
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          {{> menu}}
+          <h2>Trending</h2>
 
-    <h1>Producer Gems</h1>
-    {{> menu}}
-    <h3>Trending</h3>
-    <ul>
-      {{# songs}}
-        <li><a href="song/{{_id}}">({{upvotes}}) {{title}} - {{artist.name}}</a></li>
-      {{/songs}}
-    </ul>
+            {{# songs}}
+            <div class="media">
+              <a class="media-left pull-left" href="#">
+                <img class="img img-circle" src="images/placeholder.gif">
+              </a>
+              <div class="media-body">
+                <h4 class="media-heading"><a href="song/{{_id}}"> {{title}} - {{artist.name}}</a></h4>
+                <p>Produced by</p>
 
+              </div>
+            </div>
+            <br>
+
+            {{/songs}}
+
+        </div>
+    </div>
+  </div>
 {{>footer}}
