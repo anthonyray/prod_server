@@ -35,7 +35,8 @@ module.exports = function(passport){
       failureRedirect : '/signup',
       failureFlash : true}));
 
-  router.get('/profile', function(req,res){
+  router.get('/profile', isLoggedIn, function(req,res){
+
     res.render('profile', {user : req.user});
   });
 
@@ -45,9 +46,9 @@ module.exports = function(passport){
   });
 
   router.get('/about', function(req,res){
-    res.render('about');
+    res.render('about', {user : req.user});
   });
-  
+
   return router;
 }
 
@@ -56,5 +57,5 @@ function isLoggedIn(req,res,next){
   if (req.isAuthenticated())
     return next();
 
-  res.redirect();
+  res.redirect('/');
 }

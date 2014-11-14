@@ -12,18 +12,57 @@ router.get('/', function(req, res) {
     find().
     populate('artist').
     populate('annotations').
+    populate('producer').
     exec(function(err, songs) {
     if (err)
       res.send(err);
       else{
-        res.render( 'song/songs', {songs : songs} );
+        res.render( 'song/songs', {songs : songs, user : req.user} );
       }
   });
 });
 
 router.route('/submit').
-  get(function(req,res){
-    res.render('song/submit');
+  get(isLoggedIn, function(req,res){
+    Artist.find(function(err,artists){
+      if (err){
+        res.send(err);
+      }
+      else{
+        res.render('song/submit',{artists : artists, user : req.user});
+      }
+    })
+
+  }).
+  post(isLoggedIn, function(req,res){
+    Song.findOne({'media.url' : req.body.url}, function(err,song){
+      if (err)
+        res.send(err);
+      if (song){ // The song already exists
+        req.flash('submitMessage','The song already exists');
+        res.render('song/submit',{user : req.user, message : req.flash('submitMessage')});
+      } else {
+        var song = new Song({
+          artist : req.body.artist,
+
+          producer : req.body.producer,
+
+          title : req.body.title,
+
+          album : req.body.album,
+
+          media : { source : "youtube", url : req.body.url},
+
+          submitter : req.user.id
+        });
+
+        song.save(function(err,song){
+          if (err)
+            res.send(err);
+          else res.redirect('/song/'+song.id);
+        })
+      }
+    });
   });
 
 router.route('/:song_id').
@@ -32,12 +71,14 @@ router.route('/:song_id').
       findById(req.params.song_id).
       populate('artist').
       populate('annotations').
+      populate('producer').
+      populate('submitter').
       exec(
         function(err, song){
           if (err)
             res.send(err);
           console.log(song);
-          res.render('song',song);
+          res.render('song/song',{song : song, user : req.user});
     });
   });
 
@@ -88,3 +129,11 @@ router.route('/:song_id/annotation').
 
 
 module.exports = router;
+
+function isLoggedIn(req,res,next){
+
+  if (req.isAuthenticated())
+    return next();
+
+  res.redirect('/');
+}

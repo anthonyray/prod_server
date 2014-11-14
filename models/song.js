@@ -21,7 +21,9 @@ var songSchema = new mongoose.Schema({
 
   annotations : [{type : Schema.Types.ObjectId, ref : 'Annotation'}],
 
-  created : { type: Date, default: Date.now } 
+  created : { type: Date, default: Date.now },
+
+  submitter : { type : Schema.Types.ObjectId, ref : 'User'}
 });
 
 module.exports = mongoose.model('Song', songSchema);

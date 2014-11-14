@@ -1,0 +1,17 @@
+{{>header}}
+    {{> menu}}
+    <h1>{{ song.title }}</h1>
+    <ul>
+      <li>Artiste : {{song.artist.name}}</li>
+      <li>Album : {{song.album}}</li>
+      <li>upvotes : {{song.upvotes}}</li>
+      <li>media : <i>{{song.media.source}}</i> <b>{{song.media.source}}</b>
+      <li>Annotations :
+        <ul>
+          {{#song.annotations}}
+          <li>{{type}} - {{description}}</li>
+          {{/song.annotations}}
+        </ul>
+      <li>Submitted by : {{submitter.local.email}}</li>
+    </ul>
+{{>footer}}

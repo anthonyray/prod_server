@@ -16,7 +16,7 @@ router.route('/').
     Artist.find(function(err,artists){
       if (err)
         res.send(err);
-      res.render('artist/artists',{artists : artists});
+      res.render('artist/artists',{artists : artists, user : req.user});
     });
   });
 
@@ -25,7 +25,7 @@ router.route('/:artist_id').
     Artist.findById(req.params.artist_id,function(err,artist){
       if (err)
         res.send(err);
-      res.render('artist/artist',{artist : artist});
+      res.render('artist/artist',{artist : artist, user : req.user});
     });
   });
 module.exports = router;
