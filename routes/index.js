@@ -12,7 +12,7 @@ module.exports = function(passport){
       exec(function(err,songs){
         if (err)
           res.send(err);
-        res.render('index',{songs : songs,user : req.user});
+        res.render('index',{songs : songs, user : req.user});
       });
   });
 
@@ -36,8 +36,15 @@ module.exports = function(passport){
       failureFlash : true}));
 
   router.get('/profile', isLoggedIn, function(req,res){
+    Song.find({'submitter':req.user.id} ,function(err,songs){
+      if (err){
+        res.send(err);
+      }
+      else {
+        res.render('profile', {user : req.user});
+      }
+    });
 
-    res.render('profile', {user : req.user});
   });
 
   router.get('/logout', function(req,res){
