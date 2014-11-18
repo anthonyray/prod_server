@@ -64,6 +64,33 @@ router.route('/submit').
       }
     });
   });
+router.route('/delete/:song_id').
+  get(isLoggedIn,function(req,res){
+    Song.findById(req.params.song_id).
+    populate('artist').
+    exec(function(err,song){
+      if (err)
+        res.send(err)
+      res.render('song/delete', {user : req.user, song : song});
+    });
+  }).
+  post(isLoggedIn,function(req,res){
+    Song.findById(req.body.song_id, function(err,song){
+      if (err)
+        res.send(err)
+      console.log(song.submitter)
+      console.log(req.user._id)
+      if (song.submitter == req.user._id){
+        console.log('Song dfoiuy')
+        song.remove();
+        res.redirect('/profile',{user : req.user});
+
+      }
+      else{
+        res.redirect('/');
+      }
+    })
+  });
 
 router.route('/:song_id').
   get(function(req,res){

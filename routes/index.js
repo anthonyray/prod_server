@@ -36,13 +36,17 @@ module.exports = function(passport){
       failureFlash : true}));
 
   router.get('/profile', isLoggedIn, function(req,res){
-    Song.find({'submitter':req.user.id} ,function(err,songs){
-      if (err){
-        res.send(err);
-      }
-      else {
-        res.render('profile', {user : req.user});
-      }
+    
+    Song.find({'submitter':req.user.id}).
+    populate('artist').
+    exec(
+      function(err,songs){
+        if (err){
+          res.send(err);
+        }
+        else {
+          res.render('profile', {user : req.user, submissions : songs});
+        }
     });
 
   });
