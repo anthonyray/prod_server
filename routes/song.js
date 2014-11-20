@@ -84,21 +84,31 @@ router.route('/delete/:song_id').
         res.redirect('/profile');
       }
       
-    })
-    /*
-    Song.findById(req.body.song_id, function(err,song){
-      if (err){
-        res.send(err)
-      }
-      if (song.submitter == req.user._id){
-        console.log('Song deleted');
-        song.remove();
-        res.redirect('/profile',{user : req.user});
-      }
-      else{
-        res.redirect('/');
-      }
-    });*/
+    });
+  });
+
+router.route('/update/:song_id').
+  get(isLoggedIn,function(req,res){
+    Song.findById(req.params.song_id).
+    populate('artist').
+    populate('producer').
+    exec(function(err,song){
+      if (err)
+        res.send(err);
+      res.render('song/update', {user : req.user , song : song});
+    });
+  }).
+  post(isLoggedIn,function(req,res){
+    var update = {title: req.body.title ,
+                  album : req.body.album, 
+                  media : {source : req.body.url}
+    };
+    
+    Song.findOneAndUpdate(req.body.song_id,update,function(err){
+      if (err)
+        res.send(err);
+      res.redirect('/profile');
+    });
   });
 
 router.route('/:song_id').
@@ -116,7 +126,7 @@ router.route('/:song_id').
           console.log(song);
           res.render('song/song',{song : song, user : req.user});
     });
-  });
+  })
 
 /*
 * API
