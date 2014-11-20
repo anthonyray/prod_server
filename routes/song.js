@@ -64,6 +64,7 @@ router.route('/submit').
       }
     });
   });
+
 router.route('/delete/:song_id').
   get(isLoggedIn,function(req,res){
     Song.findById(req.params.song_id).
@@ -75,21 +76,29 @@ router.route('/delete/:song_id').
     });
   }).
   post(isLoggedIn,function(req,res){
+    Song.findOneAndRemove(req.body.song_id, function(err){
+      if (err){
+        res.send(err);
+      }
+      else{
+        res.redirect('/profile');
+      }
+      
+    })
+    /*
     Song.findById(req.body.song_id, function(err,song){
-      if (err)
+      if (err){
         res.send(err)
-      console.log(song.submitter)
-      console.log(req.user._id)
+      }
       if (song.submitter == req.user._id){
-        console.log('Song dfoiuy')
+        console.log('Song deleted');
         song.remove();
         res.redirect('/profile',{user : req.user});
-
       }
       else{
         res.redirect('/');
       }
-    })
+    });*/
   });
 
 router.route('/:song_id').
