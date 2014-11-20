@@ -39,7 +39,16 @@ function retrieveInformation(media){
 				console.log("Error")
 			}
 			else{
-				fillFormInputWithArtistData(infos);
+				findArtistinDB(infos.artist, function(result){
+					if (result.found){ // The artist exists in the DB
+						console.log("The artist exists in the DB");
+						$("option[value='"+result.artist._id+"']").prop('selected',true);
+						fillFormInputWithArtistData(infos);
+					}
+					else {
+						console.log("You should create a new artist");
+					}
+				})
 			}
 		})
 
@@ -96,6 +105,12 @@ function parseSoundCloudInformation(track){
 
 function getInformationFromYoutube(media,cb){
 	
+}
+
+function findArtistinDB(name,cb){
+	$.get( "/artist/search/" + name, function( data ) {
+		cb(data);
+	});
 }
 
 function fillFormInputWithArtistData(infos){
