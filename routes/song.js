@@ -34,33 +34,59 @@ router.route('/submit').
     })
 
   }).
-  post(isLoggedIn, function(req,res){
-    Song.findOne({'media.url' : req.body.url}, function(err,song){
+  post(isLoggedIn, function(req,res){ // The user wants to submit a new song
+    Song.findOne({'media.url' : req.body.url}, function(err,song){ // Does the song already exist in the database ?
       if (err)
         res.send(err);
       if (song){ // The song already exists
         req.flash('submitMessage','The song already exists');
         res.render('song/submit',{user : req.user, message : req.flash('submitMessage')});
-      } else {
-        var song = new Song({
-          artist : req.body.artist,
+      } else { // The song doesn't exist, let's create it. 
+        // First, check if the artist already exists ?
+        if (req.body.artist){ // The artist was found
+          var song = new Song({
+            artist : req.body.artist,
 
-          producer : req.body.producer,
+            producer : req.body.producer,
 
-          title : req.body.title,
+            title : req.body.title,
 
-          album : req.body.album,
+            album : req.body.album,
 
-          media : { source : "youtube", url : req.body.url},
+            media : { source : req.body.source, url : req.body.url},
 
-          submitter : req.user.id
-        });
+            submitter : req.user.id
+          });
 
-        song.save(function(err,song){
-          if (err)
-            res.send(err);
-          else res.redirect('/song/'+song.id);
-        })
+          song.save(function(err,song){
+            if (err)
+              res.send(err);
+            else res.redirect('/song/'+song.id);
+          })
+        }
+        else { // The artist must be created. 
+          var artist = new Artist({
+            name : req.body.artistname
+          });
+
+          artist.save(function(err,artist){
+            if (err)
+              res.send(err); // Let's create the song with the new artist id. 
+            var song = new Song({
+              artist : artist._id,
+              producer : artist._id, // TODO : FIX this !
+              title : req.body.title,
+              album : req.body.album,
+              media : { source : req.body.source, url : req.body.url},
+              submitter : req.user.id
+            });
+          song.save(function(err,song){
+            if (err)
+              res.send(err);
+            else res.redirect('/song/'+song.id);
+          })
+          });
+        }
       }
     });
   });

@@ -27,14 +27,24 @@
         </div>
         <button type="button" class="btn btn-default" id="fetch">Next</button>
       </fieldset>
+      <div class="loadingMessage">
+      <br>
+        <i class="text-center">Retrieving information ... Please wait. </i>
+      <br>
+      </div>
       <fieldset>
         <div class="form-group">
           <label for="exampleInputArtist">Artist</label>
           <select name="artist" class="form-control" id="exampleInputArtist" placeholder="Artist">
+            <option value=""></option>
             {{#artists}}
               <option value="{{_id}}">{{name}}</option>
             {{/artists}}
           </select>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputArtistName">Artist</label>
+          <input type="text" class="form-control" name="artistname" id="exampleInputArtistName" placeholder="Enter Artist's name">
         </div>
         <div class="form-group">
           <label for="exampleInputArtist">Title</label>

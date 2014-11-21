@@ -10,6 +10,11 @@ $(function() {
     // Declare variables
     var media = {};
 
+    // Prepare display : 
+    $("fieldset").eq(2).hide();
+    $("div.loadingMessage").hide();
+
+
     $("input[name='source']").change(function(){
     	// Assign the source to the media object
     	media["source"] = $(this).val();
@@ -21,14 +26,20 @@ $(function() {
     });
 
     $("#fetch").click(function(){
-    	retrieveInformation(media);
+    	// Hide the artist information fieldset. 
+    	$("div.loadingMessage").show();
+    	retrieveInformation(media,function(){
+    		$("div.loadingMessage").hide();
+    		$("fieldset").eq(2).show();
+    	});
+
     })
 
 
 });
 
 
-function retrieveInformation(media){
+function retrieveInformation(media,cb){
    	if (media.source && media.url){ // If the user correctly filled the source and the url
 		/*
 		* TODO : Undelegate events
@@ -37,16 +48,23 @@ function retrieveInformation(media){
 		retrieveArtistInformation(media,function(err,infos){
 			if (err){
 				console.log("Error")
+				cb(err);
 			}
 			else{
 				findArtistinDB(infos.artist, function(result){
 					if (result.found){ // The artist exists in the DB
 						console.log("The artist exists in the DB");
+						$("input[name='artistname']").hide(); // No need to manually enter the name of the artist.
 						$("option[value='"+result.artist._id+"']").prop('selected',true);
 						fillFormInputWithArtistData(infos);
+						cb(null);
 					}
-					else {
+					else { // The artist should be added to the DB
 						console.log("You should create a new artist");
+						$("input[name='artist']").hide(); // Hide the select
+						$("input[name='artistname']").val(infos.artist); // Fill the input for the artist name
+						fillFormInputWithArtistData(infos);
+						cb(null);
 					}
 				})
 			}
@@ -65,6 +83,7 @@ function retrieveInformation(media){
 		}
 	}
 }
+
 function retrieveArtistInformation(media,cb){
 	if (media.source == "soundcloud"){
 		console.log("Soundcloud");
@@ -97,14 +116,13 @@ function parseSoundCloudInformation(track){
 		'title' : track.title,
 		'album' : null,
 		'artist' : track.user.username,
-		'producer' : track.user.username
+		'producer' : track.user.username // Fix it in v2
 	}
 
 	return infos;
 }
 
 function getInformationFromYoutube(media,cb){
-	
 }
 
 function findArtistinDB(name,cb){
