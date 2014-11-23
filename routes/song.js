@@ -47,7 +47,7 @@ router.route('/submit').
           var song = new Song({
             artist : req.body.artist,
 
-            producer : req.body.producer,
+            producer : req.body.artist, // TODO : fix this
 
             title : req.body.title,
 

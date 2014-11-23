@@ -1,3 +1,9 @@
 Form : 
-- Remove the producer field
+- Handle errors with soundcloud
 - Handle the interruption of the process
+- Remove the unnecessary artist field
+
+Song : 
+- Set up the environnement for backbone
+- Music player
+- Annotations

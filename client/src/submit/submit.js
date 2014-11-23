@@ -54,14 +54,14 @@ function retrieveInformation(media,cb){
 				findArtistinDB(infos.artist, function(result){
 					if (result.found){ // The artist exists in the DB
 						console.log("The artist exists in the DB");
-						$("input[name='artistname']").hide(); // No need to manually enter the name of the artist.
+						$("input[name='artistname']").parent().hide(); // No need to manually enter the name of the artist.
 						$("option[value='"+result.artist._id+"']").prop('selected',true);
 						fillFormInputWithArtistData(infos);
 						cb(null);
 					}
 					else { // The artist should be added to the DB
 						console.log("You should create a new artist");
-						$("input[name='artist']").hide(); // Hide the select
+						$("select[name='artist']").parent().hide(); // Hide the select
 						$("input[name='artistname']").val(infos.artist); // Fill the input for the artist name
 						fillFormInputWithArtistData(infos);
 						cb(null);
