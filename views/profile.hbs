@@ -1,16 +1,30 @@
 {{>header}}
 {{>menu}}
-<div class="container">
-  <div class="col-xs-12">
+<div class="fluid-container">
+  <div class="row">
+    <div class="col-sm-6 col-md-3">
+      <div class="thumbnail">
+        <img src="http://placehold.it/240x200" alt="...">
+        <div class="caption">
+          <h4 class="text-center">{{user.local.email}}</h3>
+          <ul>
+            <li>Karma</li>
+          </ul>
+          <p class="text-center"><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
       <h3>Submissions</h3>
-      	<ul>
-      	{{#submissions}}
-      		<li>{{artist.name}} - {{title}} - <a href="/song/update/{{id}}">Update</a> <a href="/song/delete/{{id}}">Delete</a></li>
-      	{{/submissions}}
-      	</ul>
+      <ul>
+        {{#submissions}}
+        <li>{{artist.name}} - {{title}} - <a href="/song/update/{{id}}">Update</a> <a href="/song/delete/{{id}}">Delete</a></li>
+        {{/submissions}}
+      </ul>
       <h3>Comments</h3>
       <h3>Upvotes</h3>
-    </ul>
+    </div>
   </div>
+
 </div>
 {{>footer}}

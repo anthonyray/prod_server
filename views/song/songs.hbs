@@ -3,11 +3,21 @@
   <div class="fluid-container">
     <div class="row">
       <div class="col-xs-12">
-        <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation" class="active"><a href="#">Best</a></li>
-          <li role="presentation"><a href="#">Trending</a></li>
-          <li role="presentation"><a href="#">Most Discussed</a></li>
-        </ul>
+        <div class="text-center">
+          <h1> Browse by songs </h1>
+          <h4 class="text-muted"> Cant' find the song you want ? <a href="song/submit">Submit it !</a></h4>
+        </div>
+        <br>
+        <br>
+        <nav>
+          <ul class="nav nav-pills nav-justified">
+            <li class="active"><a href="#">Best</a></li>
+            <li><a href="#">Trending</a></li>
+            <li><a href="#">Most Discussed</a></li>
+          </ul>
+        </nav>
+        <br>
+        <br>
         {{# songs}}
         <div class="media">
           <a class="media-left pull-left" href="#">

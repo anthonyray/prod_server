@@ -1,6 +1,11 @@
 {{>header}}
     {{> menu}}
+    <div class="text-center">
     <h1>{{ song.title }}</h1>
+    <h4 class="text-muted">by <a href="/artist/{{song.artist.id}}">{{song.artist.name}}</a></h4>
+    </div>
+    <br>
+    <br>
     <ul>
       <li>Artist : {{song.artist.name}}</li>
       <li>Producer : {{song.producer.name}}</li>

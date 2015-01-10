@@ -22,6 +22,10 @@
     "serve-favicon": "~2.1.3"
   },
   "devDependencies": {
-    "grunt": "^0.4.5"
+    "grunt": "^0.4.5",
+    "grunt-bower-task": "^0.4.0",
+    "grunt-browserify": "^3.2.1",
+    "load-grunt-tasks": "^1.0.0",
+    "time-grunt": "^1.0.0"
   }
 }

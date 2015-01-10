@@ -3,11 +3,13 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12">
-      <h3>Submit</h3>
+      <h1 class="text-center">Submit a song</h1>
+      <h4 class="text-center text-muted">Have you made sure the song isn't already submitted ? </h4>
       {{#if message}}
       <div class="alert alert-danger">{{message}}</div>
       {{/if}}
       <form role="form" action="submit" method="post">
+      <h2>Select a media source </h2>
       <fieldset>
         <div class="radio">
           <label>
@@ -18,8 +20,9 @@
           <label>
             <input type="radio" name="source" id="optionsRadios1" value="youtube"> Youtube
           </label>
-        </div>        
+        </div>
       </fieldset>
+      <h2>Enter the media URL</h2>
       <fieldset>
         <div class="form-group">
           <label for="exampleInputMediaURL">Media URL</label>
@@ -31,7 +34,7 @@
       </fieldset>
       <div class="loadingMessage">
       <br>
-        <i class="text-center">Retrieving information ... Please wait. </i>
+        <i class="text-center">Thanks, We'll take it from here ! Retrieving information ... Please wait. </i>
       <br>
       </div>
       <fieldset>
