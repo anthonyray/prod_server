@@ -1,0 +1,42 @@
+<html ng-app="producerApp">
+  <head>
+    <title>Producer App</title>
+  </head>
+  <body>
+    <div ng-view></div>
+  <script src="bower_components/angular/angular.min.js"></script>
+  <script src="bower_components/angular-route/angular-route.min.js"></script>
+
+
+  <script charset="utf-8">
+
+    var app = angular.module('producerApp',['ngRoute']);
+
+    app.config(function ($routeProvider) {
+      $routeProvider
+      .when('/',{
+        controller : 'songController',
+        templateUrl:'views/song.html'
+      })
+    });
+
+    app.factory('songFactory', function($http){
+      var factory = {}
+      factory.getSong = function(){
+        return $http.get('/api/song/546f887c74f31ebe04673734');
+      }
+      return factory;
+    })
+
+    app.controller('songController', function($scope,songFactory){
+      function init(){
+        songFactory.getSong().success(function(data){
+          $scope.song = data;
+        })
+      }
+
+      init();
+    });
+  </script>
+  </body>
+</html>

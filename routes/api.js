@@ -25,11 +25,19 @@ router.route('/song').
 router.route('/song/:song_id').
 
   get(function(req,res){
-    Song.findById(req.params.song_id, function(err, song){
-      if (err)
-        res.send(err);
-      res.json(song);
-    })
+    Song.
+      findById(req.params.song_id).
+      populate('artist').
+      populate('annotations').
+      populate('producer').
+      populate('submitter').
+      exec(
+        function(err, song){
+          if (err)
+            res.send(err);
+          console.log(song);
+          res.json(song);
+    });
   }).
 
   post(function(req,res){
