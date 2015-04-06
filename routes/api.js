@@ -22,6 +22,7 @@ router.route('/song').
       res.json(songs);
     });
   });
+
 router.route('/song/:song_id').
 
   get(function(req,res){
@@ -100,6 +101,18 @@ router.route('/annotations').
 			res.json(annotations);
 		});
   });
+
+  router.route('/annotations/:songid').
+    get(function(req,res){
+      Annotation
+      .find({'song' : req.params.songid})
+      .exec(function(err, annotations) {
+  			if (err)
+  				res.send(err);
+
+  			res.json(annotations);
+  		});
+    });
 
 router.route('/artist').
   get(function(req,res){

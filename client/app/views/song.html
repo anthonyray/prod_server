@@ -7,6 +7,11 @@
   <li>Album: {{song.album}}</li>
   <li>upvotes: {{song.upvotes}}</li>
   <li>media : {{song.media}}</li>
-  <li>Annotations :</li>
   <li>Submitted by :</li>
+</ul>
+<h3>Annotations</h3>
+<ul>
+  <li ng-repeat="annotation in annotations track by annotation._id">
+    {{annotation.type}} : ({{annotation.start}})-({{annotation.stop}})
+  </li>
 </ul>
