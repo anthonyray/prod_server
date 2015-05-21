@@ -3,6 +3,7 @@ var router = express.Router();
 var Song = require('../models/song');
 var Artist = require('../models/artist');
 var Annotation = require('../models/annotation');
+
 /*
 Pages
 */
@@ -13,6 +14,7 @@ router.get('/', function(req, res) {
     populate('artist').
     populate('annotations').
     populate('producer').
+    sort('-created').
     exec(function(err, songs) {
     if (err)
       res.send(err);
@@ -20,6 +22,38 @@ router.get('/', function(req, res) {
         res.render( 'song/songs', {songs : songs, user : req.user} );
       }
   });
+});
+
+router.get('/best',function (req,res) {
+  Song.
+    find().
+    populate('artist').
+    populate('annotations').
+    populate('producer').
+    sort('upvotes').
+    exec(function (err,songs) {
+      if (err)
+        res.send(err);
+      else {
+        res.render( 'song/songs_best', { songs : songs, user : req.user });
+      }
+    });
+});
+
+router.get('/trending',function (req,res) {
+  Song.
+    find().
+    populate('artist').
+    populate('annotations').
+    populate('producer').
+    sort('-created').
+    exec(function (err,songs) {
+      if (err)
+        res.send(err);
+      else {
+        res.render( 'song/songs_trending', { songs : songs, user : req.user });
+      }
+    });
 });
 
 router.route('/submit').
@@ -41,7 +75,7 @@ router.route('/submit').
       if (song){ // The song already exists
         req.flash('submitMessage','The song already exists');
         res.render('song/submit',{user : req.user, message : req.flash('submitMessage')});
-      } else { // The song doesn't exist, let's create it. 
+      } else { // The song doesn't exist, let's create it.
         // First, check if the artist already exists ?
         if (req.body.artist){ // The artist was found
           var song = new Song({
@@ -64,14 +98,14 @@ router.route('/submit').
             else res.redirect('/song/'+song.id);
           })
         }
-        else { // The artist must be created. 
+        else { // The artist must be created.
           var artist = new Artist({
             name : req.body.artistname
           });
 
           artist.save(function(err,artist){
             if (err)
-              res.send(err); // Let's create the song with the new artist id. 
+              res.send(err); // Let's create the song with the new artist id.
             var song = new Song({
               artist : artist._id,
               producer : artist._id, // TODO : FIX this !
@@ -109,7 +143,7 @@ router.route('/delete/:song_id').
       else{
         res.redirect('/profile');
       }
-      
+
     });
   });
 
@@ -126,10 +160,10 @@ router.route('/update/:song_id').
   }).
   post(isLoggedIn,function(req,res){
     var update = {title: req.body.title ,
-                  album : req.body.album, 
+                  album : req.body.album,
                   media : {source : req.body.url}
     };
-    
+
     Song.findOneAndUpdate(req.body.song_id,update,function(err){
       if (err)
         res.send(err);

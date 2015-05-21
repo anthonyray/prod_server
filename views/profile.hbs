@@ -4,35 +4,45 @@
   <div class="row">
     <div class="col-xs-12">
       <h1 class="text-center">Your profile</h1>
-
+      <br>
     </div>
   </div>
 
   </div>
   <div class="row">
-    <div class="col-sm-6 col-md-3">
-      <div class="thumbnail">
-        <img src="http://placehold.it/240x200" alt="...">
-        <div class="caption">
-          <h4 class="text-center">{{user.local.email}}</h3>
-          <ul>
-            <li>Karma</li>
-          </ul>
-          <p class="text-center"><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+    <div class="col-xs-12">
+      <div class="center-block">
+        <img src="http://placehold.it/200x200" class="img-responsive img-circle center-block" alt="...">
+        <div class="caption text-center">
+          <h3>{{user.local.email}}</h3>
+
         </div>
+
       </div>
     </div>
-    <div class="col-md-8">
-      <h3>Submissions</h3>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-xs-12 col-md-4">
+      <h3 class="text-center">Submissions</h3>
+      <br>
       <ul>
         {{#submissions}}
         <li>{{artist.name}} - {{title}} - <a href="/song/update/{{id}}">Update</a> <a href="/song/delete/{{id}}">Delete</a></li>
         {{/submissions}}
       </ul>
-      <h3>Comments</h3>
-      <h3>Upvotes</h3>
+    </div>
+    <div class="col-xs-12 col-md-4">
+      <h3 class="text-center">Comments</h3>
+      <br>
+
+    </div>
+    <div class="col-xs-12 col-md-4">
+      <h3 class="text-center">Upvotes</h3>
+      <br>
+
     </div>
   </div>
-
+  </div>
 </div>
 {{>footer}}
