@@ -1,53 +1,15 @@
-<html ng-app="producerApp">
+<!-- producerApp v0 -->
+<html>
   <head>
-    <title>Producer App</title>
+    <title>Producer Gems</title>
+    <script src="https://fb.me/react-0.13.3.js"></script>
+    <script src="https://fb.me/JSXTransformer-0.13.3.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
   </head>
   <body>
-    <div ng-view></div>
-  <script src="bower_components/angular/angular.min.js"></script>
-  <script src="bower_components/angular-route/angular-route.min.js"></script>
-
-
-  <script charset="utf-8">
-
-    var app = angular.module('producerApp',['ngRoute']);
-
-    app.config(function ($routeProvider) {
-      $routeProvider
-      .when('/',{
-        controller : 'songController',
-        templateUrl: 'views/song.html'
-      })
-    });
-
-    app.factory('songFactory', function($http){
-      var factory = {}
-      factory.getSong = function(){
-        return $http.get('/api/song/546f887c74f31ebe04673734');
-      }
-      return factory;
-    })
-
-    app.factory('annotationFactory', function($http) {
-      var factory = {};
-      factory.getAnnotations = function(){
-        return $http.get('/api/annotations/545df8ad7864968f08df9b01')
-      }
-      return factory;
-    })
-
-    app.controller('songController', function($scope,songFactory,annotationFactory){
-      function init(){
-        songFactory.getSong().success(function(data){
-          $scope.song = data;
-        })
-        annotationFactory.getAnnotations().success(function(data){
-          $scope.annotations = data;
-        })
-      }
-
-      init();
-    });
-  </script>
+    <div id="content"></div>
+    <script type="text/jsx">
+      // Your code here
+    </script>
   </body>
 </html>
