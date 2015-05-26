@@ -2,14 +2,234 @@
 <html>
   <head>
     <title>Producer Gems</title>
+    <link rel="stylesheet" href="css/timeline.css" media="screen" title="no title" charset="utf-8">
     <script src="https://fb.me/react-0.13.3.js"></script>
     <script src="https://fb.me/JSXTransformer-0.13.3.js"></script>
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
   </head>
   <body>
-    <div id="content"></div>
+    <div id="content" class="container">
+    </div>
     <script type="text/jsx">
-      // Your code here
+
+    var TimeLineContainer = React.createClass({
+      getInitialState : function () {
+          /*return { data : [
+                            {type : "FX", start : 0, stop : 10, upvotes : 20, description : "Reverb" },
+                            {type : "Sample", start : 40, stop : 60, upvotes : 10, description : "Novembre Rouge" },
+                            {type : "Synth", start : 50, stop : 55, upvotes : 2, description : "Saw Wave" }
+                          ]};*/
+            return {data : []}
+      },
+
+      componentDidMount : function () {
+        $.ajax({
+          url: '/api/song/54779ed6e5bb055c15b0227d',
+          dataType: 'json',
+          cache: false,
+          success: function (data) {
+            var annotations = data.annotations
+            this.setState({data: annotations});
+          }.bind(this),
+
+          error: function(xhr, status, err) {
+            console.error('URL', status, err.toString());
+          }.bind(this)
+        });
+      },
+      render : function () {
+        return (
+          <div className="timeline">
+            <AnnotationForm handleAnnotationSubmit={this.handleAnnotationSubmit}/>
+            <TimeLine data={this.state.data} />
+          </div>
+        )
+      },
+
+      handleAnnotationSubmit : function (annotation) {
+        // Submit the annotation to the server and refresh the list of annotations.
+        $.ajax({
+            url : '/api', // Do not hardcode this in the future
+            dataType : 'json',
+            type : 'POST',
+            data : annotation,
+            success : function (data) {
+              console.log("Submitted annotation to the server");
+            }.bind(this),
+            error : function (xhr, status, err) {
+              console.err('url');
+            }
+        });
+      }
+    });
+
+      var TimeLine = React.createClass({
+        render : function () {
+
+          var annotationRowNodes = this.props.data.map(function (annotation) {
+            return(
+              <div className="row">
+                <Annotation type={annotation.type} start={annotation.start} stop={annotation.stop} upvotes={annotation.upvotes} description={annotation.description}/>
+              </div>
+            )
+          });
+
+            return (
+              <div>
+              {annotationRowNodes}
+              </div>
+            )
+        }
+      });
+
+      var Annotation = React.createClass({
+        colorAnnotation : function (type) {
+          if (type == "FX") {
+            return '#f1c40f'
+          }
+          else if (type == "Sample"){
+            return '#1abc9c'
+          }
+          else if (type == "Synth"){
+            return '#8e44ad'
+          }
+        },
+        render : function () {
+          return (
+            <div className="annotation" style={{left : this.props.start +'%', width : (this.props.stop - this.props.start)+'%', backgroundColor : this.colorAnnotation(this.props.type)}}></div>
+          )
+        }
+      });
+
+      var AnnotationForm = React.createClass({
+        render : function () {
+          return (
+
+              <form onSubmit={this.handleSubmit}>
+                <input type="text" placeholder="start" ref="start"/>
+                <input type="text" placeholder="stop" ref="stop"/>
+                <select ref="type">
+                  <option>FX</option>
+                  <option>Sample</option>
+                  <option>Synth</option>
+
+                </select>
+                <input type="text" ref="description" placeholder="Description"/>
+                <input type="submit" value="Add"/>
+
+              </form>
+
+            )
+        },
+
+        handleSubmit : function (e) {
+          e.preventDefault();
+
+          var annotation = {
+            start : React.findDOMNode(this.refs.start).value.trim(),
+            stop : React.findDOMNode(this.refs.stop).value.trim(),
+            description : React.findDOMNode(this.refs.description).value.trim(),
+            type : React.findDOMNode(this.refs.type).value.trim()
+
+          }
+
+          this.props.handleAnnotationSubmit(annotation);
+          this.clearForm(); // Clears the form upon succesful submission of the annotation
+          return;
+        },
+
+        clearForm : function () {
+          React.findDOMNode(this.refs.start).value = '';
+          React.findDOMNode(this.refs.stop).value = '';
+          React.findDOMNode(this.refs.description).value = '';
+
+        }
+      });
+
+      React.render(
+        <TimeLineContainer />, document.getElementById('content')
+      )
     </script>
+
+
+
+    <!--
+    <script type="text/jsx">
+
+      var CommentBox = React.createClass({
+        getInitialState : function () {
+          return { data : [] };
+        },
+        componentDidMount : function () {
+          $.ajax({
+            url : "/api/song/",
+            dataType : 'json',
+            cache : false,
+            success : function (data) {
+              console.log(data);
+              this.setState({data : data})
+            }.bind(this),
+            error : function (xhr,status,err) {
+              console.error("error");
+            }.bind(this)
+          })
+        },
+        render : function () {
+          return (<div>
+            Hello World ! I am a CommentBox ! <br/>
+            Here are my children :
+            <CommentForm />
+            <CommentList data={this.state.data}/>
+          </div>)
+        }
+      });
+
+      var CommentForm = React.createClass({
+        render : function () {
+          return (
+            <div> Hello I am a CommentForm ! </div>
+          );
+        }
+      });
+
+      var Comment = React.createClass({
+        render : function () {
+          return (
+            <div className="comment">
+              <h2 className="commentAuthor">{this.props.author}</h2>
+              <p> {this.props.children} </p>
+            </div>
+          );
+        }
+      });
+
+      var CommentList = React.createClass({
+        render : function () {
+
+            var commentNodes = this.props.data.map(function (song) {
+              return(
+                <Comment author={song.title}>
+                  {song.url}
+                </Comment>
+              )
+            });
+
+            return (
+              <div>
+              {commentNodes}
+              </div>
+            );
+
+        }
+      });
+
+
+
+      React.render(
+        <CommentBox />,
+        document.getElementById('content')
+      );
+
+    </script> -->
   </body>
 </html>

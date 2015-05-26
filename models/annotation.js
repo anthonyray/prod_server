@@ -1,4 +1,5 @@
-var mongoose = require('mongoose'), Schema = mongoose.Schema;
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 var annotationSchema = new mongoose.Schema({
   song : { type : Schema.Types.ObjectId, ref : 'Song'},
@@ -12,7 +13,7 @@ var annotationSchema = new mongoose.Schema({
     body : {type : String},
     created : { type: Date, default: Date.now },
     submitter : {type : Schema.Types.ObjectId, ref :'User'},
-    votes : {type : Number} 
+    votes : {type : Number}
   }]
 });
 

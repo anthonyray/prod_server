@@ -69,6 +69,7 @@ router.route('/annotation/:annotation_id').
 
     annotation.type = req.body.type;
     annotation.description = req.body.description;
+    annotation.song = req.body.song_id;
 
     annotation.save(function(err) {
       if (err)
