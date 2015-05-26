@@ -29,7 +29,6 @@ router.route('/song/:song_id').
     Song.
       findById(req.params.song_id).
       populate('artist').
-      populate('annotations').
       populate('producer').
       populate('submitter').
       exec(
@@ -54,41 +53,31 @@ router.route('/song/:song_id').
 
   });
 
-router.route('/annotation/:annotation_id').
+router.route('/annotation/:song_id').
 
   get(function(req,res){
-    Annotation.findById(req.params.annotation_id, function(err,annotation){
-      if(err)
-        res.send(err);
-      res.json(annotation);
-    });
-  }).
-
-  post(function(req, res) {
-    var annotation = new Annotation();
-
-    annotation.type = req.body.type;
-    annotation.description = req.body.description;
-    annotation.song = req.body.song_id;
-
-    annotation.save(function(err) {
+    Song.findById(req.params.song_id, function (err,song) {
       if (err)
         res.send(err);
-        res.json({ message: 'Annotation created!' });
-    });
+      res.json(song.annotations) // TODO : POPULATE
+    })
   }).
 
   put(function(req,res){
-    Annotation.findById(req.params.annotation_id, function(err,annotation){
+    Song.findById(req.params.song_id, function(err,song){
       if (err)
         res.send(err);
+        var start = req.body.start;
+        var stop  = req.body.stop;
+        var description = req.body.description;
+        var type = req.body.type;
 
-        annotation.description = req.body.description;
+        song.annotations.push({start : start, stop : stop, description : description, type : type});
 
-        annotation.save(function(err){
+        song.save(function(err,song){
           if (err) res.send(err);
 
-          res.json({message : 'Annotation updated!'});
+          res.json(song); // Return the updated song with annotations
         });
     });
   });
@@ -102,18 +91,6 @@ router.route('/annotations').
 			res.json(annotations);
 		});
   });
-
-  router.route('/annotations/:songid').
-    get(function(req,res){
-      Annotation
-      .find({'song' : req.params.songid})
-      .exec(function(err, annotations) {
-  			if (err)
-  				res.send(err);
-
-  			res.json(annotations);
-  		});
-    });
 
 router.route('/artist').
   get(function(req,res){

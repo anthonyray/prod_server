@@ -14,11 +14,6 @@
 
     var TimeLineContainer = React.createClass({
       getInitialState : function () {
-          /*return { data : [
-                            {type : "FX", start : 0, stop : 10, upvotes : 20, description : "Reverb" },
-                            {type : "Sample", start : 40, stop : 60, upvotes : 10, description : "Novembre Rouge" },
-                            {type : "Synth", start : 50, stop : 55, upvotes : 2, description : "Saw Wave" }
-                          ]};*/
             return {data : []}
       },
 
@@ -49,12 +44,13 @@
       handleAnnotationSubmit : function (annotation) {
         // Submit the annotation to the server and refresh the list of annotations.
         $.ajax({
-            url : '/api', // Do not hardcode this in the future
+            url : '/api/annotation/54779ed6e5bb055c15b0227d', // Do not hardcode this in the future
             dataType : 'json',
-            type : 'POST',
+            type : 'PUT',
             data : annotation,
             success : function (data) {
-              console.log("Submitted annotation to the server");
+              var annotations = data.annotations
+              this.setState({data : annotations})
             }.bind(this),
             error : function (xhr, status, err) {
               console.err('url');
