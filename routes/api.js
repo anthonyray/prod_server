@@ -63,7 +63,7 @@ router.route('/annotation/:song_id').
     })
   }).
 
-  put(function(req,res){
+  post(function(req,res){
     Song.findById(req.params.song_id, function(err,song){
       if (err)
         res.send(err);
@@ -80,7 +80,25 @@ router.route('/annotation/:song_id').
           res.json(song); // Return the updated song with annotations
         });
     });
-  });
+  }).
+
+
+  delete(function (req,res) { // Deleting an annotation
+    Song.findById(req.params.song_id, function (err,song) {
+      if (err)
+        res.send(err);
+        song.annotations.id(req.body.id).remove();
+        song.save(function (err,song) {
+          if (err) res.send(err);
+
+          res.json(song);
+        })
+    })
+  })
+
+
+
+  ;
 
 router.route('/annotations').
   get(function(req,res){
